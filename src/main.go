@@ -111,9 +111,6 @@ func main() {
   var downloadUrl = strings.Replace(DownloadUrl, "{version}", version, -1)
   downloadUrl = strings.Replace(downloadUrl, "{env}", getTargetOS(), -1)
 
-	fmt.Println(downloadUrl)
-
-	downloadUrl = "http://127.0.0.1:8080/slrun-1.0.0-alpha.1-win-x64.zip"
 	// Install
 	fmt.Println("Installing...")
   var file = downloadFile(downloadUrl, os.TempDir())
