@@ -1,0 +1,6 @@
+package main
+
+const (
+	DownloadUrl = "http://www.slrun.me/releases/slrun-{env}-{version}.zip"
+  AppName = "slrun"
+)
