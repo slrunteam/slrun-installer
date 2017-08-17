@@ -15,7 +15,6 @@ import (
 func downloadFile(url string, dest string) (file string) {
 	tokens := strings.Split(url, "/")
 	filePath := filepath.Join(dest, tokens[len(tokens)-1])
-	fmt.Println("Downloading", url, "to", filePath)
 
 	output, err := os.Create(filePath)
 	if err != nil {
@@ -31,14 +30,10 @@ func downloadFile(url string, dest string) (file string) {
 	}
 	defer response.Body.Close()
 
-	n, err := io.Copy(output, response.Body)
-	if err != nil {
+	if _, err := io.Copy(output, response.Body); err != nil {
 		fmt.Println("Error while downloading", url, "-", err)
 		return
-	}
-
-  fmt.Println(n, "bytes downloaded.")
-  
+	}  
   return filePath
 }
 
@@ -79,7 +74,7 @@ func unzip(archive, target string) error {
 	return nil
 }
 
-func normailzeTargetOS() (targetOS string){
+func getTargetOS() (targetOS string){
   var re = "linux"
   if (runtime.GOOS == "windows") {
     re = "win"
@@ -100,7 +95,7 @@ func main() {
 	var homeDir = user.HomeDir + "/." + AppName
 	fmt.Print("Installation path [", homeDir, "]: ")
 	var homeDirInput string
-	fmt.Scanln(&homeDirInput) 
+	fmt.Scanln(&homeDirInput)
 	if homeDirInput != "" {
 		homeDir = homeDirInput
   }
@@ -108,18 +103,22 @@ func main() {
   var version = "latest"
   fmt.Print("Version [", version, "]: ")
 	var versionInput string
-	fmt.Scanln(&versionInput) 
+	fmt.Scanln(&versionInput)
 	if versionInput != "" {
 		version = versionInput
 	}
   
   var downloadUrl = strings.Replace(DownloadUrl, "{version}", version, -1)
-  downloadUrl = strings.Replace(downloadUrl, "{env}", normailzeTargetOS(), -1)
+  downloadUrl = strings.Replace(downloadUrl, "{env}", getTargetOS(), -1)
 
-  // Install
+	fmt.Println(downloadUrl)
+
+	downloadUrl = "http://127.0.0.1:8080/slrun-1.0.0-alpha.1-win-x64.zip"
+	// Install
+	fmt.Println("Installing...")
   var file = downloadFile(downloadUrl, os.TempDir())
-  fmt.Print("Installing...")
-  unzip(file, homeDir)
+	unzip(file, homeDir)
+	fmt.Println(file)
   os.Remove(file)
-  fmt.Print("Finished")
+  fmt.Println("Finished")
 }
