@@ -1,6 +1,6 @@
 package main
 
 const (
-	DownloadUrl = "http://www.slrun.me/releases/slrun-{env}-{version}.zip"
+  DownloadUrl = "http://127.0.0.1:8080/slrun-{version}-{env}.zip"
   AppName = "slrun"
 )
