@@ -14,8 +14,8 @@ import (
 
 type PassThru struct {
   io.Reader
-  total    int64 // Total # of bytes transferred
-  length   int64 // Expected length
+  total    int64
+  length   int64
   progress float64
 }
 
@@ -127,5 +127,8 @@ func main() {
   os.Remove(file)
   fmt.Println("Installing: 100%")
   fmt.Println("Finished")
-  
+  fmt.Println("Please add ", homeDir, "to your $PATH environment variable or use full path for slrun" )
+  fmt.Println("Press the Enter Key to exit...")
+  var input string
+  fmt.Scanln(&input)
 }
